@@ -570,6 +570,9 @@ body {
         color: black !important;
         font-size: 12px !important;
         overflow: visible !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
     }
     .toolbar, .cal-box, .header, .footer {
         display: none;
@@ -577,9 +580,13 @@ body {
     #container {
         display: block;
         background: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
     .page, .sidebar, table {
         background: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
     .page {
         height: 188mm;
@@ -597,6 +604,8 @@ body {
     th,
     td {
         padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
     th {
         height: 5mm;
@@ -609,6 +618,14 @@ body {
     .special td[contenteditable="true"]::before {
         font-size: 0.62rem;
         top: 5px;
+    }
+    .weekend td,
+    .holiday td,
+    .dia-fechado,
+    .dia-feriado,
+    .dia-fds {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 }
 
