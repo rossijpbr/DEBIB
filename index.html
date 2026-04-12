@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Biblioteca UTFPR</title>
+
+<style>
+
+/* ================= BASE ================= */
+html {
+    font-size: 14px;
+}
+
+body {
+    font-family: Inter, Arial, sans-serif;
+    margin: 0;
+    font-size: 1rem;
+    background: linear-gradient(180deg, #e7eef7 0%, #f5f7fb 100%);
+    color: #102a43;
+}
+
+/* ================= HEADER ================= */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background: white;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    padding: 16px 24px;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 18px 36px rgba(15,31,56,0.08);
+    gap: 16px;
+}
+
+.header-brand {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 88px;
+}
+
+.header-title {
+    flex: 1 1 420px;
+    text-align: center;
+}
+
+.header img {
+    display: block;
+    height: auto;
+    width: auto;
+    max-width: 140px;
+    max-height: 84px;
+    object-fit: contain;
+}
+
+.header-left img {
+    max-width: 220px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #0f243f;
+    line-height: 1.15;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 760px) {
+    .header {
+        padding: 16px 14px;
+        justify-content: center;
+    }
+
+    .header-brand {
+        flex: 0 0 auto;
+        min-width: 72px;
+    }
+
+    .header img {
+        max-width: 120px;
+        max-height: 64px;
+    }
+
+    .header-left img {
+        max-width: 180px;
+    }
+
+    .header-title {
+        flex: 1 1 100%;
+    }
+
+    .header h1 {
+        font-size: 1.45rem;
+    }
+}
+
+@media (max-width: 760px) {
+    .header {
+        padding: 16px 14px;
+        justify-content: center;
+    }
+
+    .header img {
+        max-width: 36vw;
+        max-height: 68px;
+    }
+
+    .header-left img {
+        max-width: min(52vw, 180px);
+    }
+
+    .header h1 {
+        font-size: 1.55rem;
+    }
+}
+
+/* ================= TOOLBAR ================= */
+.toolbar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, auto));
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    background: rgba(255,255,255,0.24);
+    border: 1px solid rgba(255,255,255,0.45);
+    border-radius: 20px;
+    box-shadow: 0 14px 30px rgba(15,31,56,0.08);
+    backdrop-filter: blur(12px);
+    margin-bottom: 18px;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.toolbar select,
+.toolbar input,
+.toolbar button {
+    border: 1px solid rgba(47,111,184,0.24);
+    border-radius: 12px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.95);
+    color: #102a43;
+    font-size: 0.95rem;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.toolbar input[type="number"] {
+    width: 5.2rem;
+}
+
+#numSalas {
+    width: 4.4rem;
+}
+
+.room-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cal-actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.cal-actions .room-field {
+    margin-right: auto;
+}
+
+.cal-actions button {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+}
+
+.cal-actions button#btnLimpar {
+    background: white;
+    color: #222;
+    border: 1px solid #bbb;
+}
+
+.cal-actions button#btnLimpar:hover {
+    background: #eee;
+}
+
+.cal-actions button#btnGerarAgenda {
+    background: linear-gradient(135deg, #66a1e3, #4f78b4);
+    color: white;
+    border: none;
+}
+
+.cal-actions button#btnGerarAgenda:hover {
+    background: linear-gradient(135deg, #5b94d6, #456b9f);
+}
+
+.toolbar button {
+    background: #4a79bb;
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(47,111,184,0.18);
+}
+
+.toolbar button:hover {
+    background: #3c66a6;
+    transform: translateY(-1px);
+}
+
+.toolbar-label {
+    font-size: 0.85rem;
+    color: rgba(16,34,67,0.72);
+    margin-right: 4px;
+}
+
+.zoom-btn {
+    background: rgba(255,255,255,0.94);
+    border: 1px solid rgba(47,111,184,0.18);
+    color: #1f2937;
+}
+
+.cal-text {
+    margin-top: 16px;
+    padding: 14px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.cal-text strong {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.holiday-list {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    font-size: 0.92rem;
+    color: white;
+}
+
+.holiday-list ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.holiday-list li {
+    margin-bottom: 4px;
+}
+
+.dia-recesso {
+    background: rgba(255, 235, 59, 0.45);
+    color: #333;
+}
+
+.dia-fechado {
+    background: #f5a623;
+    color: #222;
+}
+
+.toolbar button:hover {
+    background: #265a95;
+    transform: translateY(-1px);
+}
+
+.toolbar-label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.75);
+    margin-right: 4px;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.toolbar select,
+.toolbar input,
+.toolbar button {
+    outline: none;
+    border-color: #2f6fb8;
+    box-shadow: 0 0 0 3px rgba(47, 111, 184, 0.18);
+}
+
+.zoom-btn {
+    padding: 5px 12px;
+    cursor: pointer;
+}
+
+/* ================= CALENDÁRIO ================= */
+.cal-box {
+    background: #4a6c88;
+    color: white;
+    padding: 24px;
+    border-radius: 18px;
+    width: min(100%, 980px);
+    margin: 16px auto 24px;
+    font-size: 1rem;
+    box-shadow: 0 18px 48px rgba(0,0,0,0.08);
+}
+
+.cal-box h2 {
+    text-align: center;
+    margin-bottom: 14px;
+    font-size: 1.4rem;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.dia-semana {
+    text-align: center;
+    font-size: 0.86rem;
+    opacity: 0.9;
+}
+
+.dia-cal {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.15s;
+    font-size: 0.95rem;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.dia-cal:hover {
+    transform: scale(1.05);
+    background: rgba(255,255,255,0.1);
+}
+
+.dia-feriado {
+    background: #f44336;
+    color: white;
+}
+.dia-fds {
+    background: rgba(244, 67, 54, 0.15);
+    color: white;
+}
+.dia-evento { background: #1aa34a; }
+.dia-selecionado {
+    background: #f7d94c;
+    color: #1f2937;
+    outline: 2px solid #d6b81a;
+}
+
+.legenda {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.85rem;
+}
+
+#container {
+    display: none;
+}
+
+.loader-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20,28,45,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.loader-overlay.hidden {
+    display: none;
+}
+
+.loader-box {
+    background: rgba(255,255,255,0.96);
+    border-radius: 18px;
+    padding: 24px 28px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+}
+
+.loader-text {
+    font-size: 1rem;
+    color: #102a43;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+body {
+    background: linear-gradient(180deg, #e7eef7 0%, #f4f7fb 100%);
+}
+
+.cal-box {
+    background: linear-gradient(180deg, #4a6f91 0%, #3c5f7b 100%);
+    color: #f5f7fb;
+    padding: 28px;
+    border-radius: 28px;
+    width: 100%;
+    max-width: 980px;
+    margin: 20px auto 28px;
+    box-shadow: 0 22px 68px rgba(15,31,56,0.16);
+}
+
+.toolbar {
+    background: rgba(255,255,255,0.20);
+    border-color: rgba(255,255,255,0.45);
+}
+
+.toolbar select,
+.toolbar input,
+.toolbar button {
+    background: rgba(255,255,255,0.96);
+    color: #1f2937;
+}
+
+.cal-text,
+.holiday-list {
+    background: rgba(255,255,255,0.16);
+}
+
+.dia-cal {
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: inset 0 1px 4px rgba(255,255,255,0.12);
+}
+
+.dia-cal:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.18);
+}
+
+.dia-feriado {
+    background: rgba(255, 98, 104, 0.94);
+    color: white;
+}
+
+.dia-feriado.dia-fds {
+    background: rgba(255, 98, 104, 0.94);
+    color: white;
+}
+
+.dia-fds {
+    background: rgba(255, 135, 135, 0.24);
+    color: #111;
+}
+
+.dia-fechado {
+    background: #f7b863;
+    color: #1f2937;
+}
+
+.cal-actions button#btnGerarAgenda {
+    background: linear-gradient(135deg, #66a1e3, #4f78b4);
+    color: white;
+    border: none;
+    box-shadow: 0 14px 28px rgba(45, 83, 149, 0.18);
+}
+
+.cal-actions button#btnGerarAgenda:hover {
+    background: linear-gradient(135deg, #5b94d6, #456b9f);
+}
+
+.loader-overlay {
+    background: rgba(255,255,255,0.72);
+}
+
+.loader-box {
+    padding: 20px 22px;
+}
+
+.loader-bar {
+    width: 280px;
+    height: 12px;
+    background: rgba(69, 104, 135, 0.18);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 10px auto 0;
+}
+
+.loader-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #79a7d1, #5e80b5);
+    transition: width 0.1s linear;
+}
+
+/* ================= IMPRESSÃO ================= */
+@media print {
+    html, body {
+        background: white !important;
+        color: black !important;
+    }
+    .toolbar, .cal-box, .header, .footer {
+        display: none;
+    }
+    #container {
+        display: block;
+        background: white !important;
+    }
+    .page, .sidebar, table {
+        background: white !important;
+    }
+}
+
+@page {
+    size: A4 landscape;
+    margin: 14mm 2mm 4mm 2mm;
+}
+
+/* ================= TABELA (ORIGINAL) ================= */
+.page {
+    width: 100%;
+    display: flex;
+    page-break-after: always;
+    background: white;
+}
+
+.sidebar {
+    width: 30px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.sidebar span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 0.9rem;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    table-layout: fixed;
+    border: 1px solid black;
+    font-size: 0.95rem;
+    background: white;
+}
+
+th, td {
+    border: 0.6px solid black;
+    text-align: center;
+    position: relative;
+    background: white;
+}
+
+th:first-child, td:first-child {
+    width: 28px;
+    font-size: 0.85rem;
+}
+
+th:not(:first-child), td:not(:first-child) {
+    width: calc((100% - 28px) / 14);
+}
+
+th {
+    font-size: 0.85rem;
+    height: 24px;
+}
+
+td:nth-child(5), th:nth-child(5),
+td:nth-child(11), th:nth-child(11) {
+    border-right: 2px solid black;
+}
+
+.weekend td {
+    background-color: #555;
+    color: white;
+}
+
+.holiday td {
+    background-color: #777;
+    color: white;
+}
+
+/* TEXTO AUXILIAR */
+td[contenteditable="true"]::before {
+    content: "Nome\A R.A.";
+    white-space: pre-line;
+    font-size: 0.6rem;
+    color: rgba(0,0,0,0.35);
+    position: absolute;
+    top: 3px;
+    left: 3px;
+}
+
+.special td[contenteditable="true"]::before {
+    content: attr(data-dia);
+    font-size: 0.7rem;
+    text-align: center;
+    width: 100%;
+    top: 6px;
+    left: 0;
+    display: block;
+    white-space: normal;
+    line-height: 1.1;
+    overflow-wrap: break-word;
+    padding: 0 2px;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    text-align: center;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="header-brand header-left">
+        <img src="logo_utfpr.png" alt="UTFPR">
+    </div>
+    <div class="header-title">
+        <h1>Gerador automático para agenda de sala de estudo da<br>biblioteca da UTFPR-CM</h1>
+    </div>
+    <div class="header-brand header-right">
+        <img src="logo_biblioteca.png" alt="Biblioteca UTFPR">
+    </div>
+</div>
+
+<div class="cal-box">
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <label class="toolbar-label" for="mes">Mês</label>
+            <select id="mes"></select>
+            <label class="toolbar-label" for="ano">Ano</label>
+            <input type="number" id="ano">
+        </div>
+        <div class="toolbar-group">
+            <button class="zoom-btn" onclick="alterarZoom(1)">A+</button>
+            <button class="zoom-btn" onclick="alterarZoom(-1)">A-</button>
+        </div>
+    </div>
+    <div class="cal-grid" id="calendario"></div>
+
+    <div class="legenda">
+        <span><b style="color:#f44336">■</b> Feriado(s) nacional(is)</span>
+    </div>
+
+    <div class="holiday-list" id="holidayList"></div>
+
+    <div class="cal-text">
+        <strong>Feriados nacionais já incluídos.</strong>
+        Para adicionar outros dias em que a biblioteca estará fechada, selecione os dias no calendário.
+    </div>
+
+    <div class="cal-actions">
+        <div class="room-field">
+            <label class="toolbar-label" for="numSalas">Salas de estudo</label>
+            <input type="number" id="numSalas" min="1" max="20" value="7">
+        </div>
+        <button id="btnLimpar" type="button" disabled>♻ Limpar seleção</button>
+        <button id="btnGerarAgenda" type="button">📄 Gerar agenda</button>
+    </div>
+</div>
+
+<div id="loaderOverlay" class="loader-overlay hidden">
+    <div class="loader-box">
+        <div class="loader-text">Gerando agenda...</div>
+        <div class="loader-bar">
+            <div class="loader-fill" style="width:0%"></div>
+        </div>
+    </div>
+</div>
+
+<div id="container"></div>
+
+<div class="footer">
+    João Paulo Rossi © 2026
+</div>
+
+<script>
+
+/* ================= JS ORIGINAL COMPLETO ================= */
+
+let zoom = 1;
+
+function alterarZoom(delta){
+    zoom += delta * 0.1;
+    if(zoom < 0.8) zoom = 0.8;
+    if(zoom > 1.6) zoom = 1.6;
+    document.documentElement.style.fontSize = (14 * zoom) + "px";
+}
+
+const mesEl = document.getElementById("mes");
+const anoEl = document.getElementById("ano");
+const numSalasEl = document.getElementById("numSalas");
+const calendarioEl = document.getElementById("calendario");
+const containerEl = document.getElementById("container");
+const btnLimpar = document.getElementById("btnLimpar");
+const btnGerarAgenda = document.getElementById("btnGerarAgenda");
+const holidayListEl = document.getElementById("holidayList");
+
+let eventos = {};
+let cacheFeriados = {};
+let dragging = false;
+let dragAction = null;
+
+const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+               "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+
+meses.forEach((m,i)=>{
+    let op=document.createElement("option");
+    op.value=i;
+    op.text=m;
+    mesEl.appendChild(op);
+});
+
+window.onload = () => {
+    const hoje = new Date();
+    mesEl.value = hoje.getMonth();
+    anoEl.value = hoje.getFullYear();
+    numSalasEl.value = 7;
+    atualizar();
+};
+
+mesEl.onchange = atualizar;
+anoEl.oninput = atualizar;
+numSalasEl.oninput = () => {
+    if(numSalasEl.value < 1) numSalasEl.value = 1;
+    if(numSalasEl.value > 20) numSalasEl.value = 20;
+};
+btnLimpar.onclick = limparSelecao;
+btnGerarAgenda.onclick = iniciarGeracao;
+btnLimpar.disabled = true;
+
+document.body.onmouseup = () => { dragging = false; dragAction = null; };
+document.body.onpointerup = document.body.onmouseup;
+document.body.ontouchend = document.body.onmouseup;
+
+function getMesAno(){
+    return {
+        mes: parseInt(mesEl.value),
+        ano: parseInt(anoEl.value)
+    };
+}
+
+function formatarData(d){
+    let y = d.getFullYear();
+    let m = String(d.getMonth()+1).padStart(2,'0');
+    let day = String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${day}`;
+}
+
+function calcularPascoa(ano){
+    let a=ano%19,b=Math.floor(ano/100),c=ano%100;
+    let d=Math.floor(b/4),e=b%4;
+    let f=Math.floor((b+8)/25);
+    let g=Math.floor((b-f+1)/3);
+    let h=(19*a+b-d-g+15)%30;
+    let i=Math.floor(c/4),k=c%4;
+    let l=(32+2*e+2*i-h-k)%7;
+    let m=Math.floor((a+11*h+22*l)/451);
+    let mes=Math.floor((h+l-7*m+114)/31);
+    let dia=((h+l-7*m+114)%31)+1;
+    return new Date(ano,mes-1,dia);
+}
+
+function obterFeriados(ano){
+    if(cacheFeriados[ano]) return cacheFeriados[ano];
+
+    let f = {};
+    const pascoa = calcularPascoa(ano);
+
+    function add(d,nome){
+        f[formatarData(d)] = nome;
+    }
+
+    function addDias(d,x){
+        let n=new Date(d);
+        n.setDate(n.getDate()+x);
+        return n;
+    }
+
+    add(new Date(ano,0,1),"Confraternização Universal");
+    add(new Date(ano,3,21),"Tiradentes");
+    add(new Date(ano,4,1),"Dia do Trabalho");
+    add(new Date(ano,8,7),"Independência do Brasil");
+    add(new Date(ano,9,12),"Nossa Senhora Aparecida");
+    add(new Date(ano,10,2),"Finados");
+    add(new Date(ano,10,15),"Proclamação da República");
+    add(new Date(ano,11,25),"Natal");
+
+    add(addDias(pascoa,-2),"Sexta-feira Santa");
+    add(addDias(pascoa,60),"Corpus Christi");
+    add(addDias(pascoa,-47),"Carnaval (Terça-feira)");
+    add(addDias(pascoa,-48),"Carnaval (Segunda-feira)");
+
+    cacheFeriados[ano] = f;
+    return f;
+}
+
+function atualizar(){
+    gerarCalendario();
+    gerarAgenda();
+    atualizarBotaoLimpar();
+    renderHolidayList();
+}
+
+function atualizarBotaoLimpar(){
+    const temFechado = Object.values(eventos).some(ev => ev.nome === "Biblioteca fechada");
+    btnLimpar.disabled = !temFechado;
+}
+
+function renderHolidayList(){
+    const {mes, ano} = getMesAno();
+    const feriados = obterFeriados(ano);
+    const items = Object.keys(feriados)
+        .filter(data => Number(data.split("-")[1]) - 1 === mes)
+        .sort((a,b)=>a.localeCompare(b))
+        .map(data => {
+            const [y,m,d] = data.split("-");
+            return `<li>${parseInt(d)}/${parseInt(m)} - ${feriados[data]}</li>`;
+        });
+    holidayListEl.innerHTML = items.length ? `<ul>${items.join("")}</ul>` : "";
+}
+
+function getNumSalas(){
+    const value = parseInt(numSalasEl.value, 10);
+    return isNaN(value) ? 7 : Math.min(20, Math.max(1, value));
+}
+
+function iniciarGeracao(){
+    const loader = document.getElementById("loaderOverlay");
+    const fill = document.querySelector(".loader-fill");
+    loader.classList.remove("hidden");
+    fill.style.width = "0%";
+
+    let progress = 0;
+    const step = 100 / 18;
+    const interval = setInterval(() => {
+        progress += step;
+        if(progress > 100) progress = 100;
+        fill.style.width = progress + "%";
+        if(progress >= 100){
+            clearInterval(interval);
+            setTimeout(() => {
+                loader.classList.add("hidden");
+                window.print();
+            }, 150);
+        }
+    }, 100);
+}
+
+function gerarCalendario(){
+
+    calendarioEl.innerHTML = "";
+
+    const {mes, ano} = getMesAno();
+
+    const diasSemana=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+
+    diasSemana.forEach(d=>{
+        let div=document.createElement("div");
+        div.className="dia-semana";
+        div.innerText=d;
+        calendarioEl.appendChild(div);
+    });
+
+    const primeiro = new Date(ano,mes,1).getDay();
+    const diasMes = new Date(ano,mes+1,0).getDate();
+    const feriados = obterFeriados(ano);
+
+    for(let i=0;i<primeiro;i++){
+        calendarioEl.appendChild(document.createElement("div"));
+    }
+
+    for(let dia=1;dia<=diasMes;dia++){
+
+        const data = new Date(ano,mes,dia);
+        const chave = formatarData(data);
+        const diaSemana = data.getDay();
+
+        let div=document.createElement("div");
+        div.className="dia-cal";
+        div.innerText=dia;
+
+        const isFeriado = !!feriados[chave];
+        const isFechado = eventos[chave] && eventos[chave].nome === "Biblioteca fechada";
+
+        if(diaSemana===0 || diaSemana===6){
+            if(!isFeriado) div.classList.add("dia-fds");
+        }
+
+        if(isFechado){
+            div.classList.add("dia-fechado");
+            div.title = "Biblioteca fechada";
+        } else if(isFeriado){
+            div.classList.add("dia-feriado");
+            div.title = feriados[chave];
+        }
+
+        const atualizarDia = () => {
+            const estaFechado = eventos[chave] && eventos[chave].nome === "Biblioteca fechada";
+            if(estaFechado){
+                div.classList.add("dia-fechado", "dia-selecionado");
+                div.classList.remove("dia-feriado", "dia-fds");
+                div.title = "Biblioteca fechada";
+            } else if(isFeriado){
+                div.classList.remove("dia-fechado", "dia-selecionado", "dia-fds");
+                div.classList.add("dia-feriado");
+                div.title = feriados[chave];
+            } else if(diaSemana === 0 || diaSemana === 6){
+                div.classList.remove("dia-fechado", "dia-feriado", "dia-selecionado");
+                div.classList.add("dia-fds");
+                div.title = "";
+            } else {
+                div.classList.remove("dia-fechado", "dia-feriado", "dia-selecionado", "dia-fds");
+                div.title = "";
+            }
+        };
+
+        const atualizarEstado = () => {
+            atualizarDia();
+            atualizarBotaoLimpar();
+            gerarAgenda();
+        };
+
+        const alternarDia = (e) => {
+            if(isFeriado) return;
+            if(e) e.preventDefault();
+            dragging = true;
+            const estaFechado = eventos[chave] && eventos[chave].nome === "Biblioteca fechada";
+            dragAction = estaFechado ? 'remove' : 'add';
+            if(estaFechado){
+                delete eventos[chave];
+            } else {
+                eventos[chave] = { nome: "Biblioteca fechada" };
+            }
+            atualizarEstado();
+        };
+
+        div.onmousedown = alternarDia;
+        div.onpointerdown = alternarDia;
+        div.ontouchstart = alternarDia;
+
+        div.onmouseenter = () => {
+            if(!dragging || isFeriado) return;
+            const estaFechado = eventos[chave] && eventos[chave].nome === "Biblioteca fechada";
+            if(dragAction === 'add' && !estaFechado){
+                eventos[chave] = { nome: "Biblioteca fechada" };
+                atualizarEstado();
+            }
+            if(dragAction === 'remove' && estaFechado){
+                delete eventos[chave];
+                atualizarEstado();
+            }
+        };
+
+        div.onpointerenter = div.onmouseenter;
+
+        div.onclick = (e) => {
+            if(isFeriado) return;
+            e.preventDefault();
+        };
+
+        calendarioEl.appendChild(div);
+    }
+}
+
+function limparSelecao(){
+    Object.keys(eventos).forEach(chave => {
+        if(eventos[chave].nome === "Biblioteca fechada"){
+            delete eventos[chave];
+        }
+    });
+    atualizar();
+}
+
+function gerarAgenda(){
+    containerEl.innerHTML="";
+
+    const {mes, ano} = getMesAno();
+
+    const diasMes=new Date(ano,mes+1,0).getDate();
+    const metade=Math.ceil(diasMes/2);
+
+    criarPagina(1,mes,ano,containerEl,1,metade);
+    criarPagina(1,mes,ano,containerEl,metade+1,diasMes);
+}
+
+window.onbeforeprint=function(){
+
+    const {mes, ano} = getMesAno();
+
+    containerEl.innerHTML="";
+
+    const diasMes=new Date(ano,mes+1,0).getDate();
+    const metade=Math.ceil(diasMes/2);
+    const numSalas = getNumSalas();
+
+    for(let sala=1;sala<=numSalas;sala++){
+        criarPagina(sala,mes,ano,containerEl,1,metade);
+        criarPagina(sala,mes,ano,containerEl,metade+1,diasMes);
+    }
+};
+
+function criarPagina(sala,mes,ano,cont,inicio,fim){
+
+    const feriados = obterFeriados(ano);
+
+    let div=document.createElement("div");
+    div.className="page";
+
+    let side=document.createElement("div");
+    side.className="sidebar";
+    side.innerHTML=`<span>SALA ${sala} - ${meses[mes]} / ${ano}</span>`;
+    div.appendChild(side);
+
+    let tabela=document.createElement("table");
+
+    let header="<tr><th>Dia</th>";
+    for(let h=8;h<22;h++){
+        header+=`<th>${h}h-${h+1}h</th>`;
+    }
+    header+="</tr>";
+    tabela.innerHTML=header;
+
+    const totalLinhas=(fim-inicio+1)+1;
+    const ALTURA_UTIL_MM = 190;
+    const alturaLinha = ALTURA_UTIL_MM / totalLinhas;
+
+    for(let dia=inicio;dia<=fim;dia++){
+
+        let tr=document.createElement("tr");
+
+        const data=new Date(ano,mes,dia);
+        const semana=data.getDay();
+        const chave=formatarData(data);
+
+        let texto="";
+
+        if(eventos[chave]){
+            tr.classList.add("holiday","special");
+            texto=eventos[chave].nome;
+        }
+        else if(feriados[chave]){
+            tr.classList.add("holiday","special");
+            texto="Biblioteca Fechada";
+        }
+        else if(semana===0||semana===6){
+            tr.classList.add("weekend","special");
+            texto=nomeDiaSemana(semana);
+        }
+
+        let linha=`<td>${dia}/${mes+1}</td>`;
+
+        for(let h=8;h<22;h++){
+            linha+=`<td contenteditable="true" ${texto?`data-dia="${texto}"`:''}></td>`;
+        }
+
+        tr.innerHTML=linha;
+        tr.style.height=alturaLinha+"mm";
+
+        tabela.appendChild(tr);
+    }
+
+    div.appendChild(tabela);
+    cont.appendChild(div);
+}
+
+function nomeDiaSemana(d){
+    return ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"][d];
+}
+
+</script>
+
+</body>
+</html>
