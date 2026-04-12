@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agenda Biblioteca UTFPR</title>
+<link rel="icon" type="image/png" href="logo_biblioteca.png">
+<link rel="shortcut icon" href="logo_biblioteca.png">
 
 <style>
 
@@ -703,7 +705,7 @@ td[contenteditable="true"]::before {
     top: 6px;
     left: 0;
     display: block;
-    white-space: normal;
+    white-space: pre-line;
     line-height: 1.1;
     overflow-wrap: break-word;
     padding: 0 2px;
@@ -1049,9 +1051,12 @@ function gerarCalendario(){
             atualizarEstado();
         };
 
-        div.onmousedown = alternarDia;
-        div.onpointerdown = alternarDia;
-        div.ontouchstart = alternarDia;
+        if(window.PointerEvent){
+            div.onpointerdown = alternarDia;
+        } else {
+            div.onmousedown = alternarDia;
+            div.ontouchstart = alternarDia;
+        }
 
         div.onmouseenter = () => {
             if(!dragging || isFeriado) return;
@@ -1066,7 +1071,9 @@ function gerarCalendario(){
             }
         };
 
-        div.onpointerenter = div.onmouseenter;
+        if(window.PointerEvent){
+            div.onpointerenter = div.onmouseenter;
+        }
 
         div.onclick = (e) => {
             if(isFeriado) return;
@@ -1151,11 +1158,13 @@ function criarPagina(sala,mes,ano,cont,inicio,fim){
 
         if(eventos[chave]){
             tr.classList.add("holiday","special");
-            texto=eventos[chave].nome;
+            texto=eventos[chave].nome === "Biblioteca fechada"
+                ? "Biblioteca&#10;fechada"
+                : eventos[chave].nome;
         }
         else if(feriados[chave]){
             tr.classList.add("holiday","special");
-            texto="Biblioteca Fechada";
+            texto="Biblioteca&#10;Fechada";
         }
         else if(semana===0||semana===6){
             tr.classList.add("weekend","special");
