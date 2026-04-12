@@ -18,6 +18,7 @@ body {
     font-size: 1rem;
     background: linear-gradient(180deg, #e7eef7 0%, #f5f7fb 100%);
     color: #102a43;
+    overflow-x: hidden;
 }
 
 .page-shell {
@@ -114,9 +115,9 @@ body {
     }
 
     .header {
-        grid-template-columns: minmax(92px, 132px) minmax(220px, 1fr) minmax(72px, 96px);
-        padding: 14px 12px;
-        gap: 10px;
+        grid-template-columns: 84px minmax(0, 1fr) 64px;
+        padding: 14px 10px;
+        gap: 8px;
     }
 
     .header-left img {
@@ -128,13 +129,18 @@ body {
     }
 
     .header h1 {
-        max-width: 22ch;
-        font-size: clamp(1.05rem, 0.9rem + 1.1vw, 1.45rem);
+        max-width: 100%;
+        font-size: clamp(0.92rem, 0.82rem + 1vw, 1.22rem);
+        line-height: 1.18;
     }
 
     .header-title-divider {
-        width: min(220px, 100%);
-        margin: 10px auto;
+        width: min(180px, 100%);
+        margin: 8px auto;
+    }
+
+    .header-title-sub {
+        font-size: 0.9em;
     }
 }
 
@@ -560,6 +566,8 @@ body {
     html, body {
         background: white !important;
         color: black !important;
+        font-size: 12px !important;
+        overflow: visible !important;
     }
     .toolbar, .cal-box, .header, .footer {
         display: none;
@@ -571,11 +579,40 @@ body {
     .page, .sidebar, table {
         background: white !important;
     }
+    .page {
+        height: 188mm;
+        page-break-after: always;
+        break-after: page;
+    }
+    .sidebar,
+    table {
+        height: 100%;
+        box-sizing: border-box;
+    }
+    table {
+        font-size: 0.82rem;
+    }
+    th,
+    td {
+        padding: 0;
+    }
+    th {
+        height: 5mm;
+        font-size: 0.78rem;
+        line-height: 1;
+    }
+    td[contenteditable="true"]::before {
+        font-size: 0.52rem;
+    }
+    .special td[contenteditable="true"]::before {
+        font-size: 0.62rem;
+        top: 5px;
+    }
 }
 
 @page {
     size: A4 landscape;
-    margin: 14mm 2mm 4mm 2mm;
+    margin: 10mm 2mm 4mm 2mm;
 }
 
 /* ================= TABELA (ORIGINAL) ================= */
@@ -1099,7 +1136,7 @@ function criarPagina(sala,mes,ano,cont,inicio,fim){
     tabela.innerHTML=header;
 
     const totalLinhas=(fim-inicio+1)+1;
-    const ALTURA_UTIL_MM = 190;
+    const ALTURA_UTIL_MM = 186;
     const alturaLinha = ALTURA_UTIL_MM / totalLinhas;
 
     for(let dia=inicio;dia<=fim;dia++){
