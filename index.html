@@ -20,110 +20,128 @@ body {
     color: #102a43;
 }
 
+.page-shell {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 24px 24px;
+}
+
 /* ================= HEADER ================= */
 .header {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(120px, 220px) minmax(320px, 1.8fr) minmax(96px, 140px);
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    background: white;
+    gap: 20px;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(16,42,67,0.08);
     width: 100%;
-    max-width: none;
     box-sizing: border-box;
-    padding: 16px 24px;
+    padding: 20px 28px;
     border-radius: 0 0 24px 24px;
-    box-shadow: 0 18px 36px rgba(15,31,56,0.08);
-    gap: 16px;
+    box-shadow: 0 14px 28px rgba(15,31,56,0.08);
 }
 
 .header-brand {
-    flex: 0 0 auto;
     display: flex;
     align-items: center;
-    justify-content: center;
-    min-width: 88px;
+    min-width: 0;
 }
 
 .header-title {
-    flex: 1 1 420px;
+    min-width: 0;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    padding: 0 12px;
 }
 
 .header img {
     display: block;
     height: auto;
     width: auto;
-    max-width: 140px;
-    max-height: 84px;
     object-fit: contain;
+    max-width: 100%;
 }
 
 .header-left img {
-    max-width: 220px;
+    width: 220px;
+}
+
+.header-right img {
+    width: 140px;
+}
+
+.header-left {
+    justify-content: flex-start;
+}
+
+.header-right {
+    justify-content: flex-end;
 }
 
 .header h1 {
     margin: 0;
-    font-size: 1.9rem;
+    max-width: 32ch;
+    font-size: clamp(1.5rem, 1.1rem + 1.3vw, 2.3rem);
     font-weight: 700;
-    color: #0f243f;
-    line-height: 1.15;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    color: #12314f;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+}
+
+.header-title-main {
+    display: block;
+}
+
+.header-title-divider {
+    width: min(320px, 100%);
+    height: 2px;
+    margin: 12px auto;
+    background: #12314f;
+    border-radius: 999px;
+}
+
+.header-title-sub {
+    display: block;
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 @media (max-width: 760px) {
+    .page-shell {
+        padding: 0 12px 20px;
+    }
+
     .header {
-        padding: 16px 14px;
-        justify-content: center;
-    }
-
-    .header-brand {
-        flex: 0 0 auto;
-        min-width: 72px;
-    }
-
-    .header img {
-        max-width: 120px;
-        max-height: 64px;
+        grid-template-columns: minmax(92px, 132px) minmax(220px, 1fr) minmax(72px, 96px);
+        padding: 14px 12px;
+        gap: 10px;
     }
 
     .header-left img {
-        max-width: 180px;
+        width: 100%;
     }
 
-    .header-title {
-        flex: 1 1 100%;
-    }
-
-    .header h1 {
-        font-size: 1.45rem;
-    }
-}
-
-@media (max-width: 760px) {
-    .header {
-        padding: 16px 14px;
-        justify-content: center;
-    }
-
-    .header img {
-        max-width: 36vw;
-        max-height: 68px;
-    }
-
-    .header-left img {
-        max-width: min(52vw, 180px);
+    .header-right img {
+        width: 100%;
     }
 
     .header h1 {
-        font-size: 1.55rem;
+        max-width: 22ch;
+        font-size: clamp(1.05rem, 0.9rem + 1.1vw, 1.45rem);
+    }
+
+    .header-title-divider {
+        width: min(220px, 100%);
+        margin: 10px auto;
     }
 }
 
 /* ================= TOOLBAR ================= */
 .toolbar {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, auto));
+    display: flex;
+    justify-content: center;
     align-items: center;
     gap: 12px;
     padding: 16px 18px;
@@ -140,6 +158,7 @@ body {
     gap: 10px;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
 }
 
 .toolbar select,
@@ -225,12 +244,6 @@ body {
     margin-right: 4px;
 }
 
-.zoom-btn {
-    background: rgba(255,255,255,0.94);
-    border: 1px solid rgba(47,111,184,0.18);
-    color: #1f2937;
-}
-
 .cal-text {
     margin-top: 16px;
     padding: 14px;
@@ -299,21 +312,17 @@ body {
     box-shadow: 0 0 0 3px rgba(47, 111, 184, 0.18);
 }
 
-.zoom-btn {
-    padding: 5px 12px;
-    cursor: pointer;
-}
-
 /* ================= CALENDÁRIO ================= */
 .cal-box {
     background: #4a6c88;
     color: white;
     padding: 24px;
     border-radius: 18px;
-    width: min(100%, 980px);
+    width: 100%;
     margin: 16px auto 24px;
     font-size: 1rem;
     box-shadow: 0 18px 48px rgba(0,0,0,0.08);
+    box-sizing: border-box;
 }
 
 .cal-box h2 {
@@ -419,9 +428,48 @@ body {
     padding: 28px;
     border-radius: 28px;
     width: 100%;
-    max-width: 980px;
+    max-width: none;
     margin: 20px auto 28px;
     box-shadow: 0 22px 68px rgba(15,31,56,0.16);
+}
+
+@media (max-width: 900px) {
+    .toolbar-group {
+        justify-content: center;
+    }
+
+    .legenda {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .cal-box {
+        padding: 18px 14px;
+        border-radius: 20px;
+    }
+
+    .cal-grid {
+        gap: 4px;
+    }
+
+    .dia-semana {
+        font-size: 0.78rem;
+    }
+
+    .dia-cal {
+        min-height: 38px;
+        font-size: 0.9rem;
+    }
+
+    .cal-actions {
+        justify-content: center;
+    }
+
+    .cal-actions .room-field {
+        margin-right: 0;
+    }
 }
 
 .toolbar {
@@ -638,51 +686,53 @@ td[contenteditable="true"]::before {
 
 <body>
 
-<div class="header">
-    <div class="header-brand header-left">
-        <img src="logo_utfpr.png" alt="UTFPR">
-    </div>
-    <div class="header-title">
-        <h1>Gerador automático para agenda de sala de estudo da<br>biblioteca da UTFPR-CM</h1>
-    </div>
-    <div class="header-brand header-right">
-        <img src="logo_biblioteca.png" alt="Biblioteca UTFPR">
-    </div>
+    <div class="header">
+        <div class="header-brand header-left">
+            <img src="logo_utfpr.png" alt="UTFPR">
+        </div>
+        <div class="header-title">
+            <h1>
+                <span class="header-title-main">Agenda das Salas de Estudo</span>
+                <span class="header-title-divider"></span>
+                <span class="header-title-sub">Biblioteca  UTFPR <br> Campus Campo Mourão</span>
+            </h1>
+        </div>
+        <div class="header-brand header-right">
+            <img src="logo_biblioteca.png" alt="Biblioteca UTFPR">
+        </div>
 </div>
 
-<div class="cal-box">
-    <div class="toolbar">
-        <div class="toolbar-group">
-            <label class="toolbar-label" for="mes">Mês</label>
-            <select id="mes"></select>
-            <label class="toolbar-label" for="ano">Ano</label>
-            <input type="number" id="ano">
+<div class="page-shell">
+    <div class="cal-box">
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <label class="toolbar-label" for="mes">Mês</label>
+                <select id="mes"></select>
+                <label class="toolbar-label" for="ano">Ano</label>
+                <input type="number" id="ano">
+            </div>
         </div>
-        <div class="toolbar-group">
-            <button class="zoom-btn" onclick="alterarZoom(1)">A+</button>
-            <button class="zoom-btn" onclick="alterarZoom(-1)">A-</button>
+        <div class="cal-grid" id="calendario"></div>
+
+        <div class="legenda">
+            <span><b style="color:#f44336">■</b> Feriado(s) nacional(is)</span>
         </div>
-    </div>
-    <div class="cal-grid" id="calendario"></div>
 
-    <div class="legenda">
-        <span><b style="color:#f44336">■</b> Feriado(s) nacional(is)</span>
-    </div>
+        <div class="holiday-list" id="holidayList"></div>
 
-    <div class="holiday-list" id="holidayList"></div>
-
-    <div class="cal-text">
-        <strong>Feriados nacionais já incluídos.</strong>
-        Para adicionar outros dias em que a biblioteca estará fechada, selecione os dias no calendário.
-    </div>
-
-    <div class="cal-actions">
-        <div class="room-field">
-            <label class="toolbar-label" for="numSalas">Salas de estudo</label>
-            <input type="number" id="numSalas" min="1" max="20" value="7">
+        <div class="cal-text">
+            <strong>Feriados nacionais já incluídos.</strong>
+            Para adicionar outros dias em que a biblioteca estará fechada, selecione os dias no calendário.
         </div>
-        <button id="btnLimpar" type="button" disabled>♻ Limpar seleção</button>
-        <button id="btnGerarAgenda" type="button">📄 Gerar agenda</button>
+
+        <div class="cal-actions">
+            <div class="room-field">
+                <label class="toolbar-label" for="numSalas">Salas de estudo</label>
+                <input type="number" id="numSalas" min="1" max="20" value="7">
+            </div>
+            <button id="btnLimpar" type="button" disabled>♻ Limpar seleção</button>
+            <button id="btnGerarAgenda" type="button">📄 Gerar agenda</button>
+        </div>
     </div>
 </div>
 
