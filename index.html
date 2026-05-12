@@ -195,6 +195,19 @@ body {
     gap: 10px;
 }
 
+.print-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.print-option input {
+    width: auto;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+}
+
 .cal-actions {
     margin-top: 18px;
     display: flex;
@@ -574,7 +587,7 @@ body {
         print-color-adjust: exact;
         color-adjust: exact;
     }
-    .toolbar, .cal-box, .header, .footer {
+    .toolbar, .cal-box, .header, .footer, .page-shell {
         display: none;
     }
     #container {
@@ -589,7 +602,11 @@ body {
         print-color-adjust: exact;
     }
     .page {
-        height: 188mm;
+        height: 187mm;
+        page-break-after: auto;
+        break-after: auto;
+    }
+    .page:not(:last-child) {
         page-break-after: always;
         break-after: page;
     }
@@ -598,8 +615,79 @@ body {
         height: 100%;
         box-sizing: border-box;
     }
+    .month-cover {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .month-cover-title {
+        margin: 0;
+        width: 100%;
+        font-size: 10rem;
+        font-weight: 900;
+        line-height: 1;
+        text-align: center;
+        text-decoration: underline;
+        text-underline-offset: 8px;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        transform: translateY(-7.5mm);
+    }
+    .month-cover-title.month-long {
+        font-size: 9rem;
+        letter-spacing: 0.025em;
+    }
+    .month-cover-title.month-extra-long {
+        font-size: 8.2rem;
+        letter-spacing: 0.015em;
+    }
+    .rules-cover {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        overflow: hidden;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    .rules-cover-content {
+        width: 165mm;
+        height: 255mm;
+        padding: 10mm 12mm;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        transform: rotate(-90deg);
+        transform-origin: center;
+    }
+    .rules-cover-title {
+        margin: 0 0 8mm;
+        font-size: 1.45rem;
+        font-weight: 900;
+        text-align: center;
+        text-decoration: underline;
+        text-underline-offset: 5px;
+        letter-spacing: 0.04em;
+    }
+    .rules-cover-body {
+        margin: 0;
+        font-size: 0.86rem;
+        line-height: 1.45;
+        text-align: justify;
+        overflow: hidden;
+    }
+    .rules-cover-body p {
+        margin: 0 0 4mm;
+    }
     table {
         font-size: 0.82rem;
+    }
+    .sidebar span {
+        font-size: 1.22rem;
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: 0.06em;
     }
     th,
     td {
@@ -616,8 +704,9 @@ body {
         font-size: 0.52rem;
     }
     .special td[contenteditable="true"]::before {
-        font-size: 0.62rem;
-        top: 5px;
+        font-size: 0.54rem;
+        top: 1px;
+        line-height: 1;
     }
     .weekend td,
     .holiday td,
@@ -631,14 +720,13 @@ body {
 
 @page {
     size: A4 landscape;
-    margin: 10mm 2mm 4mm 2mm;
+    margin: 18mm 2mm 3mm 2mm;
 }
 
 /* ================= TABELA (ORIGINAL) ================= */
 .page {
     width: 100%;
     display: flex;
-    page-break-after: always;
     background: white;
 }
 
@@ -654,7 +742,10 @@ body {
 .sidebar span {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    font-size: 0.9rem;
+    font-size: 1.12rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: 0.05em;
 }
 
 table {
@@ -783,9 +874,13 @@ td[contenteditable="true"]::before {
 
         <div class="cal-actions">
             <div class="room-field">
-                <label class="toolbar-label" for="numSalas">Salas de estudo</label>
+                <label class="toolbar-label" for="numSalas">Quantidade de salas de estudo</label>
                 <input type="number" id="numSalas" min="1" max="20" value="7">
             </div>
+            <label class="toolbar-label print-option" for="imprimirRegras">
+                <input type="checkbox" id="imprimirRegras" checked>
+                Imprimir regras de uso das Salas de Estudo
+            </label>
             <button id="btnLimpar" type="button" disabled>♻ Limpar seleção</button>
             <button id="btnGerarAgenda" type="button">📄 Gerar agenda</button>
         </div>
@@ -823,6 +918,7 @@ function alterarZoom(delta){
 const mesEl = document.getElementById("mes");
 const anoEl = document.getElementById("ano");
 const numSalasEl = document.getElementById("numSalas");
+const imprimirRegrasEl = document.getElementById("imprimirRegras");
 const calendarioEl = document.getElementById("calendario");
 const containerEl = document.getElementById("container");
 const btnLimpar = document.getElementById("btnLimpar");
@@ -1118,6 +1214,10 @@ function gerarAgenda(){
     const diasMes=new Date(ano,mes+1,0).getDate();
     const metade=Math.ceil(diasMes/2);
 
+    if(imprimirRegrasEl.checked){
+        criarPaginaRegras(containerEl);
+    }
+    criarCapaMes(mes,containerEl);
     criarPagina(1,mes,ano,containerEl,1,metade);
     criarPagina(1,mes,ano,containerEl,metade+1,diasMes);
 }
@@ -1132,11 +1232,62 @@ window.onbeforeprint=function(){
     const metade=Math.ceil(diasMes/2);
     const numSalas = getNumSalas();
 
+    if(imprimirRegrasEl.checked){
+        criarPaginaRegras(containerEl);
+    }
+    criarCapaMes(mes,containerEl);
+
     for(let sala=1;sala<=numSalas;sala++){
         criarPagina(sala,mes,ano,containerEl,1,metade);
         criarPagina(sala,mes,ano,containerEl,metade+1,diasMes);
     }
 };
+
+function criarPaginaRegras(cont){
+    let div=document.createElement("div");
+    div.className="page rules-cover";
+
+    let conteudo=document.createElement("div");
+    conteudo.className="rules-cover-content";
+
+    let titulo=document.createElement("h2");
+    titulo.className="rules-cover-title";
+    titulo.textContent="REGRAS DE USO DAS SALAS DE ESTUDO";
+
+    let corpo=document.createElement("div");
+    corpo.className="rules-cover-body";
+    corpo.innerHTML=[
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae sem sed neque gravida facilisis. Integer non justo at ipsum viverra posuere. Donec porta, nibh sed cursus facilisis, urna arcu luctus erat, vitae tempor massa lorem at nisl. Suspendisse potenti.",
+        "Morbi tincidunt, massa non luctus luctus, justo lorem dignissim nibh, vitae feugiat ipsum neque sed neque. Etiam a arcu vitae magna tempor finibus. Curabitur id lorem vitae arcu placerat porta. Proin sed urna sed erat luctus consequat. Nulla facilisi.",
+        "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Sed consequat lectus vitae justo tincidunt, non posuere lacus tristique. Aenean id neque quis lectus porta fermentum. Maecenas at lorem sed massa efficitur gravida.",
+        "Vivamus sit amet sem sed turpis cursus facilisis. Integer posuere, erat nec bibendum dignissim, arcu lectus pharetra mi, vitae tincidunt justo sem a erat. Fusce non massa in arcu commodo feugiat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+        "Cras gravida, magna vitae tincidunt cursus, purus lorem accumsan nulla, sit amet faucibus neque magna vitae velit. Donec vitae neque vel justo elementum blandit. Aliquam erat volutpat. Integer in velit sed purus efficitur porttitor at non magna.",
+        "Nam facilisis, arcu non ultrices cursus, sapien turpis aliquet nibh, sed viverra neque nisl sed ipsum. Donec tristique arcu sit amet risus porttitor, a dictum lorem pulvinar. Sed sed magna vel massa gravida bibendum.",
+        "Praesent euismod neque in tellus tempor, quis fermentum velit sagittis. Suspendisse in nibh sed neque lacinia cursus. Integer id risus a justo posuere efficitur. Proin convallis lorem vel augue maximus, vitae eleifend velit tempor."
+    ].map(texto => `<p>${texto}</p>`).join("");
+
+    conteudo.appendChild(titulo);
+    conteudo.appendChild(corpo);
+    div.appendChild(conteudo);
+    cont.appendChild(div);
+}
+
+function criarCapaMes(mes,cont){
+    let div=document.createElement("div");
+    div.className="page month-cover";
+
+    let titulo=document.createElement("h2");
+    titulo.className="month-cover-title";
+    titulo.textContent=meses[mes].toLocaleUpperCase("pt-BR");
+    if(titulo.textContent.length >= 9){
+        titulo.classList.add("month-extra-long");
+    } else if(titulo.textContent.length >= 7){
+        titulo.classList.add("month-long");
+    }
+
+    div.appendChild(titulo);
+    cont.appendChild(div);
+}
 
 function criarPagina(sala,mes,ano,cont,inicio,fim){
 
@@ -1159,9 +1310,28 @@ function criarPagina(sala,mes,ano,cont,inicio,fim){
     header+="</tr>";
     tabela.innerHTML=header;
 
-    const totalLinhas=(fim-inicio+1)+1;
-    const ALTURA_UTIL_MM = 186;
-    const alturaLinha = ALTURA_UTIL_MM / totalLinhas;
+    const ALTURA_UTIL_MM = 185;
+    const ALTURA_CABECALHO_MM = 5;
+    const ALTURA_LINHA_COMPACTA_MM = 8;
+
+    let linhasCompactas = 0;
+    let linhasNormais = 0;
+    for(let dia=inicio;dia<=fim;dia++){
+        const data=new Date(ano,mes,dia);
+        const semana=data.getDay();
+        const chave=formatarData(data);
+        if(eventos[chave] || feriados[chave] || semana===0 || semana===6){
+            linhasCompactas++;
+        } else {
+            linhasNormais++;
+        }
+    }
+
+    const alturaDisponivel = ALTURA_UTIL_MM - ALTURA_CABECALHO_MM;
+    const alturaUsadaCompactas = linhasCompactas * ALTURA_LINHA_COMPACTA_MM;
+    const alturaLinhaNormal = linhasNormais
+        ? (alturaDisponivel - alturaUsadaCompactas) / linhasNormais
+        : ALTURA_LINHA_COMPACTA_MM;
 
     for(let dia=inicio;dia<=fim;dia++){
 
@@ -1172,19 +1342,23 @@ function criarPagina(sala,mes,ano,cont,inicio,fim){
         const chave=formatarData(data);
 
         let texto="";
+        let linhaCompacta = false;
 
         if(eventos[chave]){
             tr.classList.add("holiday","special");
+            linhaCompacta = true;
             texto=eventos[chave].nome === "Biblioteca fechada"
                 ? "Biblioteca&#10;fechada"
                 : eventos[chave].nome;
         }
         else if(feriados[chave]){
             tr.classList.add("holiday","special");
+            linhaCompacta = true;
             texto="Biblioteca&#10;Fechada";
         }
         else if(semana===0||semana===6){
             tr.classList.add("weekend","special");
+            linhaCompacta = true;
             texto=nomeDiaSemana(semana);
         }
 
@@ -1195,7 +1369,7 @@ function criarPagina(sala,mes,ano,cont,inicio,fim){
         }
 
         tr.innerHTML=linha;
-        tr.style.height=alturaLinha+"mm";
+        tr.style.height=(linhaCompacta ? ALTURA_LINHA_COMPACTA_MM : alturaLinhaNormal)+"mm";
 
         tabela.appendChild(tr);
     }
