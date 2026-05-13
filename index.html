@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agenda Biblioteca UTFPR</title>
-<link rel="icon" type="image/png" href="logo_biblioteca.png">
-<link rel="shortcut icon" href="logo_biblioteca.png">
+<link rel="icon" type="image/png" href="logo_agenda.png">
+<link rel="shortcut icon" href="logo_agenda.png">
 
 <style>
 
@@ -31,15 +31,15 @@ body {
 
 /* ================= HEADER ================= */
 .header {
-    display: grid;
-    grid-template-columns: minmax(120px, 220px) minmax(320px, 1.8fr) minmax(96px, 140px);
+    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     background: #ffffff;
     border-bottom: 1px solid rgba(16,42,67,0.08);
     width: 100%;
     box-sizing: border-box;
-    padding: 20px 28px;
+    padding: 4px 28px;
     border-radius: 0 0 24px 24px;
     box-shadow: 0 14px 28px rgba(15,31,56,0.08);
 }
@@ -55,7 +55,7 @@ body {
     text-align: center;
     display: flex;
     justify-content: center;
-    padding: 0 12px;
+    padding: 0;
 }
 
 .header img {
@@ -66,20 +66,14 @@ body {
     max-width: 100%;
 }
 
-.header-left img {
-    width: 220px;
+.header-main-logo img {
+    width: 310px;
+    max-width: none;
 }
 
-.header-right img {
-    width: 140px;
-}
-
-.header-left {
-    justify-content: flex-start;
-}
-
-.header-right {
-    justify-content: flex-end;
+.header-main-logo {
+    justify-content: center;
+    flex: 0 0 auto;
 }
 
 .header h1 {
@@ -117,17 +111,17 @@ body {
     }
 
     .header {
-        grid-template-columns: 84px minmax(0, 1fr) 64px;
-        padding: 14px 10px;
-        gap: 8px;
+        flex-direction: column;
+        padding: 4px 10px;
+        gap: 6px;
     }
 
-    .header-left img {
-        width: 100%;
+    .header-main-logo img {
+        width: 230px;
     }
 
-    .header-right img {
-        width: 100%;
+    .header-main-logo {
+        width: auto;
     }
 
     .header h1 {
@@ -642,50 +636,78 @@ body {
         letter-spacing: 0.015em;
     }
     .rules-cover {
-        padding: 0;
+        padding: 8mm 12mm;
         display: flex;
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
         overflow: hidden;
+        position: relative;
         page-break-inside: avoid;
         break-inside: avoid;
     }
     .rules-cover-content {
-        width: 165mm;
-        height: 255mm;
-        padding: 10mm 12mm;
+        position: absolute;
+        width: 170mm;
+        height: 270mm;
+        padding: 10mm 22mm 10mm 6mm;
         box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
         transform: rotate(-90deg);
         transform-origin: center;
     }
-    .rules-cover-title {
+    .rules-cover-content h1 {
         margin: 0 0 8mm;
-        font-size: 1.45rem;
+        font-size: 1.56rem;
         font-weight: 900;
         text-align: center;
-        text-decoration: underline;
-        text-underline-offset: 5px;
-        letter-spacing: 0.04em;
+        line-height: 1.15;
+        white-space: nowrap;
     }
-    .rules-cover-body {
-        margin: 0;
-        font-size: 0.86rem;
-        line-height: 1.45;
+    .rules-cover-content p,
+    .rules-cover-content li {
+        font-size: 1.22rem;
+        line-height: 1.38;
         text-align: justify;
-        overflow: hidden;
     }
-    .rules-cover-body p {
-        margin: 0 0 4mm;
+    .rules-cover-content > p {
+        margin: 0 0 6mm;
+        font-weight: 700;
+        font-style: italic;
+        text-align: center;
+    }
+    .rules-cover-content ol {
+        margin: 0;
+        padding-left: 8mm;
+    }
+    .rules-cover-content li {
+        margin-bottom: 4mm;
+        padding-left: 2mm;
+    }
+    .rules-cover-content .observacoes {
+        margin-top: 6mm;
+        text-align: center;
+        font-style: italic;
+        font-weight: 700;
+    }
+    .rules-cover-content .observacoes p {
+        margin: 0 0 2mm;
+        text-align: center;
+    }
+    .rules-cover-content .assinatura {
+        margin-top: 8mm;
+        text-align: center;
+        font-weight: 900;
+    }
+    .rules-cover-content .assinatura p {
+        margin: 0 0 3mm;
+        text-align: center;
     }
     table {
         font-size: 0.82rem;
     }
     .sidebar span {
-        font-size: 1.22rem;
-        font-weight: 900;
+        font-size: 1.32rem !important;
+        font-weight: 900 !important;
         line-height: 1.1;
         letter-spacing: 0.06em;
     }
@@ -697,8 +719,16 @@ body {
     }
     th {
         height: 5mm;
-        font-size: 0.78rem;
         line-height: 1;
+    }
+    th:first-child,
+    td:first-child {
+        font-size: 1.32rem !important;
+        font-weight: 900;
+    }
+    th:not(:first-child) {
+        font-size: 1.32rem !important;
+        font-weight: 900;
     }
     td[contenteditable="true"]::before {
         font-size: 0.52rem;
@@ -707,6 +737,7 @@ body {
         font-size: 0.54rem;
         top: 1px;
         line-height: 1;
+        color: white;
     }
     .weekend td,
     .holiday td,
@@ -834,8 +865,8 @@ td[contenteditable="true"]::before {
 <body>
 
     <div class="header">
-        <div class="header-brand header-left">
-            <img src="logo_utfpr.png" alt="UTFPR">
+        <div class="header-brand header-main-logo">
+            <img src="logo_agenda.png" alt="Agenda das Salas de Estudo">
         </div>
         <div class="header-title">
             <h1>
@@ -843,9 +874,6 @@ td[contenteditable="true"]::before {
                 <span class="header-title-divider"></span>
                 <span class="header-title-sub">Biblioteca  UTFPR <br> Campus Campo Mourão</span>
             </h1>
-        </div>
-        <div class="header-brand header-right">
-            <img src="logo_biblioteca.png" alt="Biblioteca UTFPR">
         </div>
 </div>
 
@@ -1249,25 +1277,78 @@ function criarPaginaRegras(cont){
 
     let conteudo=document.createElement("div");
     conteudo.className="rules-cover-content";
+    conteudo.innerHTML=`
+        <h1>NORMAS PARA UTILIZAÇÃO DAS SALAS DE ESTUDO</h1>
 
-    let titulo=document.createElement("h2");
-    titulo.className="rules-cover-title";
-    titulo.textContent="REGRAS DE USO DAS SALAS DE ESTUDO";
+        <p>
+            Prezado aluno, seguem as normas para a boa utilização das salas de estudo.
+        </p>
 
-    let corpo=document.createElement("div");
-    corpo.className="rules-cover-body";
-    corpo.innerHTML=[
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae sem sed neque gravida facilisis. Integer non justo at ipsum viverra posuere. Donec porta, nibh sed cursus facilisis, urna arcu luctus erat, vitae tempor massa lorem at nisl. Suspendisse potenti.",
-        "Morbi tincidunt, massa non luctus luctus, justo lorem dignissim nibh, vitae feugiat ipsum neque sed neque. Etiam a arcu vitae magna tempor finibus. Curabitur id lorem vitae arcu placerat porta. Proin sed urna sed erat luctus consequat. Nulla facilisi.",
-        "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Sed consequat lectus vitae justo tincidunt, non posuere lacus tristique. Aenean id neque quis lectus porta fermentum. Maecenas at lorem sed massa efficitur gravida.",
-        "Vivamus sit amet sem sed turpis cursus facilisis. Integer posuere, erat nec bibendum dignissim, arcu lectus pharetra mi, vitae tincidunt justo sem a erat. Fusce non massa in arcu commodo feugiat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-        "Cras gravida, magna vitae tincidunt cursus, purus lorem accumsan nulla, sit amet faucibus neque magna vitae velit. Donec vitae neque vel justo elementum blandit. Aliquam erat volutpat. Integer in velit sed purus efficitur porttitor at non magna.",
-        "Nam facilisis, arcu non ultrices cursus, sapien turpis aliquet nibh, sed viverra neque nisl sed ipsum. Donec tristique arcu sit amet risus porttitor, a dictum lorem pulvinar. Sed sed magna vel massa gravida bibendum.",
-        "Praesent euismod neque in tellus tempor, quis fermentum velit sagittis. Suspendisse in nibh sed neque lacinia cursus. Integer id risus a justo posuere efficitur. Proin convallis lorem vel augue maximus, vitae eleifend velit tempor."
-    ].map(texto => `<p>${texto}</p>`).join("");
+        <ol>
+            <li>
+                A utilização das salas destina-se à realização de trabalhos, estudos e reuniões
+                de cunho acadêmico para grupos superiores a 05 (cinco) integrantes;
+                (exceto em períodos de menor fluxo onde, não havendo reserva para as salas,
+                poderão ser utilizadas individualmente ou por grupos menores);
+            </li>
 
-    conteudo.appendChild(titulo);
-    conteudo.appendChild(corpo);
+            <li>
+                Preencher no balcão de atendimento a ficha de reserva com Nome e R.A.
+                (Registro Acadêmico) do responsável;
+            </li>
+
+            <li>
+                A permanência da reserva por grupo é de até 02 (duas) horas por turno
+                (manhã, tarde ou noite); podendo ser prorrogado, observando-se a demanda
+                de solicitações e o controle de reservas.
+            </li>
+
+            <li>
+                As reservas terão tolerância de 15 (quinze) minutos de atraso.
+                Após, a sala ficará disponível para outro grupo;
+            </li>
+
+            <li>
+                Durante o período de utilização, não é permitido ausentar-se da biblioteca
+                deixando o material na sala. Caso isto ocorra, os servidores do setor irão
+                recolher os materiais e guardá-los no balcão de atendimento. Neste caso,
+                a sala será liberada para outro grupo que esteja interessado
+                (com preferência ao próximo grupo com horário agendado).
+                É de inteira responsabilidade dos alunos zelar por seus materiais;
+                não nos responsabilizamos por materiais deixados na sala.
+            </li>
+
+            <li>
+                A entrada e o consumo de alimentos e bebidas não são permitidos nas
+                dependências da Biblioteca;
+            </li>
+
+            <li>
+                Não é permitido P. Aluno na sala de estudo da DEBIB.
+                Existem outras salas disponíveis pela Instituição para este fim.
+            </li>
+        </ol>
+
+        <div class="observacoes">
+            <p>
+                Ao deixar a sala, desligue o ar-condicionado e apague as luzes.
+            </p>
+
+            <p>
+                Mantenha porta e janela fechadas e o ambiente limpo.
+            </p>
+
+            <p>
+                Em caso de dúvidas, procure o balcão de atendimento.
+            </p>
+        </div>
+
+        <div class="assinatura">
+            <p>DEPARTAMENTO DE BIBLIOTECA</p>
+            <p>DIRETORIA DE GRADUAÇÃO E EDUCAÇÃO PROFISSIONAL</p>
+        </div>
+    `;
+
     div.appendChild(conteudo);
     cont.appendChild(div);
 }
@@ -1362,7 +1443,7 @@ function criarPagina(sala,mes,ano,cont,inicio,fim){
             texto=nomeDiaSemana(semana);
         }
 
-        let linha=`<td>${dia}/${mes+1}</td>`;
+        let linha=`<td>${dia}</td>`;
 
         for(let h=8;h<22;h++){
             linha+=`<td contenteditable="true" ${texto?`data-dia="${texto}"`:''}></td>`;
